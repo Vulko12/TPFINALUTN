@@ -22,9 +22,9 @@ bool combatir(int ronda, int casaSeleccionada, int &oro, int &soldados, int &com
     int chanceBatalla = chances[ronda];
 
 
-    if (casaSeleccionada == 3) { // Targaryen
+    if (casaSeleccionada == 3) {
         chanceBatalla += 35 + (nivelHabilidad * 10);
-    } else if (casaSeleccionada == 2) { // Stark
+    } else if (casaSeleccionada == 2) {
         chanceBatalla -= 20 - (nivelHabilidad * 5);
         if (chanceBatalla < 0) chanceBatalla = 0;
     }
@@ -35,7 +35,7 @@ bool combatir(int ronda, int casaSeleccionada, int &oro, int &soldados, int &com
     bool victoria = (random <= chanceBatalla);
 
     if (victoria) {
-        cout << "¡Victoria!" << endl;
+        cout << "Â¡Victoria!" << endl;
 
         int oroExtra = 0;
         if (casaSeleccionada == 1) {
