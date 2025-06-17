@@ -2,8 +2,6 @@
 #include "juego.h"
 #include "tienda.h"
 #include "batalla.h"
-#include "utilidades.h"
-
 using namespace std;
 
 void iniciarJuego() {
@@ -11,7 +9,7 @@ void iniciarJuego() {
     int oro = 0;
     int soldados = 0;
     int comida = 0;
-    float pasiva_probabilidad = 0.0;
+    int nivelHabilidad = 0;
     int batalla_actual = 0;
     int derrotas = 0;
 
@@ -24,16 +22,8 @@ void iniciarJuego() {
 
     if (casaSeleccionada == 1) {
         oro = 75000;
-        pasiva_probabilidad = 0.15;
-    } else if (casaSeleccionada == 2) {
+    } else {
         oro = 50000;
-        pasiva_probabilidad = 0.30;
-    } else if (casaSeleccionada == 3) {
-        oro = 50000;
-        pasiva_probabilidad = 0.10;
-    } else if (casaSeleccionada == 4) {
-        oro = 50000;
-        pasiva_probabilidad = 0.05;
     }
 
     int opcion;
@@ -46,7 +36,7 @@ void iniciarJuego() {
         cout << "|Oro              : " << oro << endl;
         cout << "|Comida           : " << comida << endl;
         cout << "|Soldados         : " << soldados << endl;
-        cout << "|Habilidad nivel  : " << pasiva_probabilidad << endl;
+        cout << "|Nivel Habilidad  : " << nivelHabilidad << endl;
         cout << "---------------------------------------" << endl;
         cout << "1 - Ir a la batalla" << endl;
         cout << "2 - Tienda" << endl;
@@ -57,10 +47,10 @@ void iniciarJuego() {
         switch (opcion) {
             case 1:
                 if (batalla_actual >= 10) {
-                    cout << "No quedan mas batallas!" << endl;
+                    cout << "No quedan más batallas!" << endl;
                     system("pause");
                 } else {
-                    bool victoria = combatir(batalla_actual, casaSeleccionada, oro, soldados, comida, pasiva_probabilidad);
+                    bool victoria = combatir(batalla_actual, casaSeleccionada, oro, soldados, comida, nivelHabilidad);
                     batalla_actual++;
                     if (!victoria) {
                         derrotas++;
@@ -72,7 +62,7 @@ void iniciarJuego() {
                 }
                 break;
             case 2:
-                abrirTienda(oro, soldados, comida, pasiva_probabilidad, casaSeleccionada);
+                abrirTienda(oro, soldados, comida, nivelHabilidad, casaSeleccionada);
                 break;
         }
     } while (opcion != 3);
