@@ -12,12 +12,24 @@ bool combatir(int ronda, int casaSeleccionada, int &oro, int &soldados, int &com
     cout << "----- BATALLA #" << ronda+1 << " -----\n";
 
     int chanceBatalla = chances[ronda];
+<<<<<<< HEAD
     if (casaSeleccionada == 3) chanceBatalla += 35 + nivelHabilidad*10;
+=======
+
+
+    if (casaSeleccionada == 3) {
+        chanceBatalla += 35 + (nivelHabilidad * 10);
+    } else if (casaSeleccionada == 2) {
+        chanceBatalla -= 20 - (nivelHabilidad * 5);
+        if (chanceBatalla < 0) chanceBatalla = 0;
+    }
+>>>>>>> 12356f0b423141d56362bb7d1197e0dc792768cc
 
     int random = rand() % 100 + 1;
     cout << "Chance: " << chanceBatalla << "%\n";
 
     bool victoria = (random <= chanceBatalla);
+<<<<<<< HEAD
     if (victoria)
     {
         cout << "¡VICTORIA!\n";
@@ -26,6 +38,17 @@ bool combatir(int ronda, int casaSeleccionada, int &oro, int &soldados, int &com
         {
             extra = oroGanado[ronda]*(30 + nivelHabilidad*5)/100;
             cout << "Lannister: +" << extra << " oro extra.\n";
+=======
+
+    if (victoria) {
+        cout << "Â¡Victoria!" << endl;
+
+        int oroExtra = 0;
+        if (casaSeleccionada == 1) {
+            int porcentajeExtra = 30 + (nivelHabilidad * 5);
+            oroExtra = oroGanado[ronda] * porcentajeExtra / 100;
+            cout << "Lannister habilidad activa: +" << oroExtra << " oro extra" << endl;
+>>>>>>> 12356f0b423141d56362bb7d1197e0dc792768cc
         }
         oro += oroGanado[ronda] + extra;
     }
