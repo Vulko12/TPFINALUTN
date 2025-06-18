@@ -20,7 +20,7 @@ bool combatir(int ronda, int casaSeleccionada, int &oro, int &soldados, int &com
     bool victoria = false;
     bool dragonActivado = false;
 
-    // Targaryen – habilidad activa automatica
+
     if (casaSeleccionada == 3) {
         int chanceDragon = 10 + nivelHabilidad * 10;
         int tirada = rand() % 100 + 1;
@@ -86,7 +86,7 @@ bool combatir(int ronda, int casaSeleccionada, int &oro, int &soldados, int &com
         cout << "Soldados perdidos: " << perdidasBatalla << "\n";
     }
 
-    // Gasto de comida y habilidades de Baratheon
+
     if (casaSeleccionada == 4) {
         int chanceHabilidad = 5 + nivelHabilidad * 5;
         bool habilidadActiva = (rand() % 100 + 1 <= chanceHabilidad);
@@ -105,7 +105,7 @@ bool combatir(int ronda, int casaSeleccionada, int &oro, int &soldados, int &com
 
         if (comida < 0) comida = 0;
     } else {
-        // Otras casas: gasto total de comida
+
         comida -= soldadosCombatientes;
         if (comida < 0) comida = 0;
     }
