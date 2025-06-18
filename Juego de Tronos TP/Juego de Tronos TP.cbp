@@ -39,8 +39,6 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="tienda.cpp" />
 		<Unit filename="tienda.h" />
-		<Unit filename="utiidades.h" />
-		<Unit filename="utilidades.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

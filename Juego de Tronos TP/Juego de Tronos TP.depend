@@ -1,0 +1,28 @@
+# depslib dependency file v1.0
+1750258067 source:d:\tp final utn\juego de tronos tp\batalla.cpp
+	<iostream>
+	<cstdlib>
+	"batalla.h"
+
+1750180361 d:\tp final utn\juego de tronos tp\batalla.h
+
+1750180313 source:d:\tp final utn\juego de tronos tp\juego.cpp
+	<iostream>
+	"juego.h"
+	"tienda.h"
+	"batalla.h"
+
+1750180317 d:\tp final utn\juego de tronos tp\juego.h
+
+1750180330 d:\tp final utn\juego de tronos tp\tienda.h
+
+1750257957 source:d:\tp final utn\juego de tronos tp\main.cpp
+	<iostream>
+	<cstdlib>
+	<ctime>
+	"juego.h"
+
+1750258033 source:d:\tp final utn\juego de tronos tp\tienda.cpp
+	<iostream>
+	"tienda.h"
+

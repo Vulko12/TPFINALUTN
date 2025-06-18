@@ -4,68 +4,83 @@
 #include "batalla.h"
 using namespace std;
 
-void iniciarJuego() {
-    int casaSeleccionada;
-    int oro = 0;
-    int soldados = 0;
-    int comida = 0;
-    int nivelHabilidad = 0;
-    int batalla_actual = 0;
-    int derrotas = 0;
+void iniciarJuego()
+{
+    int casaSeleccionada, oro = 0, soldados = 0, comida = 0, nivelHabilidad = 0;
+    int batalla_actual = 0, derrotas = 0;
 
-    cout << "Elige tu casa:" << endl;
-    cout << "1 - Lannister" << endl;
-    cout << "2 - Stark" << endl;
-    cout << "3 - Targaryen" << endl;
-    cout << "4 - Baratheon" << endl;
+    cout << "----------------------------------" << endl;
+    cout << "      BIENVENIDO A JUEGO DE TRONOS" << endl;
+    cout << "----------------------------------" << endl;
+
+    string nombreCasa = "";
+    cout << "Elige tu casa:\n1 - Lannister\n2 - Stark\n3 - Targaryen\n4 - Baratheon\n";
     cin >> casaSeleccionada;
 
-    if (casaSeleccionada == 1) {
+    switch(casaSeleccionada)
+    {
+    case 1:
+        nombreCasa = "Lannister";
         oro = 75000;
-    } else {
+        break;
+    case 2:
+        nombreCasa = "Stark";
         oro = 50000;
+        break;
+    case 3:
+        nombreCasa = "Targaryen";
+        oro = 50000;
+        break;
+    case 4:
+        nombreCasa = "Baratheon";
+        oro = 50000;
+        break;
+    default:
+        nombreCasa = "Desconocida";
+        break;
     }
 
     int opcion;
-    do {
+    do
+    {
         system("cls");
-        cout << "---------------------------------------" << endl;
-        cout << "            Juego de Tronos            " << endl;
-        cout << "---------------------------------------" << endl;
-        cout << "|Batallas jugadas : " << batalla_actual << endl;
-        cout << "|Oro              : " << oro << endl;
-        cout << "|Comida           : " << comida << endl;
-        cout << "|Soldados         : " << soldados << endl;
-        cout << "|Nivel Habilidad  : " << nivelHabilidad << endl;
-        cout << "---------------------------------------" << endl;
-        cout << "1 - Ir a la batalla" << endl;
-        cout << "2 - Tienda" << endl;
-        cout << "3 - Salir" << endl;
-        cout << "Opcion: ";
+        cout << "----------------------------------\nESTADO ACTUAL\n----------------------------------\n";
+        cout << "Casa: " << nombreCasa << endl;
+        cout << "Batallas: " << batalla_actual << "\nOro: " << oro << "\nComida: " << comida << "\nSoldados: " << soldados << "\nNivel Habilidad: " << nivelHabilidad << endl;
+        cout << "----------------------------------\n1 - Batalla\n2 - Tienda\n3 - Salir\nOpcion: ";
         cin >> opcion;
 
-        switch (opcion) {
-            case 1:
-                if (batalla_actual >= 10) {
-                    cout << "No quedan más batallas!" << endl;
-                    system("pause");
-                } else {
-                    bool victoria = combatir(batalla_actual, casaSeleccionada, oro, soldados, comida, nivelHabilidad);
-                    batalla_actual++;
-                    if (!victoria) {
-                        derrotas++;
-                    }
-                    if (derrotas >= 4) {
-                        cout << "Perdiste la guerra!" << endl;
-                        return;
-                    }
+        switch (opcion)
+        {
+        case 1:
+            if (batalla_actual >= 10)
+            {
+                cout << "No quedan más batallas!\n";
+                system("pause");
+            }
+            else if (soldados <= 0 || comida < soldados)
+            {
+                cout << "No tienes tropas o comida suficiente!\n";
+                system("pause");
+            }
+            else
+            {
+                bool victoria = combatir(batalla_actual, casaSeleccionada, oro, soldados, comida, nivelHabilidad);
+                batalla_actual++;
+                if (!victoria) derrotas++;
+                if (derrotas >= 4)
+                {
+                    cout << "Perdiste la guerra!\n";
+                    return;
                 }
-                break;
-            case 2:
-                abrirTienda(oro, soldados, comida, nivelHabilidad, casaSeleccionada);
-                break;
+            }
+            break;
+        case 2:
+            abrirTienda(oro, soldados, comida, nivelHabilidad, casaSeleccionada);
+            break;
         }
-    } while (opcion != 3);
+    }
+    while (opcion != 3);
 
-    cout << "Juego finalizado." << endl;
+    cout << "Juego finalizado.\n";
 }
