@@ -55,10 +55,10 @@ void iniciarJuego()
         case 1:
             if (batalla_actual >= 10)
             {
-                cout << "No quedan más batallas!\n";
+                cout << "No quedan mas batallas!\n";
                 system("pause");
             }
-            else if (soldados <= 0 || comida < soldados)
+            else if (soldados <= 0 || comida <= 0)
             {
                 cout << "No tienes tropas o comida suficiente!\n";
                 system("pause");

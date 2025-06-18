@@ -3,88 +3,115 @@
 #include "batalla.h"
 using namespace std;
 
-bool combatir(int ronda, int casaSeleccionada, int &oro, int &soldados, int &comida, int nivelHabilidad)
-{
-    int chances[10]= {50,45,40,35,30,25,20,15,10,5};
-    int perdidas[10]= {5,10,15,20,25,30,35,40,45,50};
-    int oroGanado[10]= {15000,20000,25000,30000,35000,40000,45000,50000,55000,60000};
+bool combatir(int ronda, int casaSeleccionada, int &oro, int &soldados, int &comida, int nivelHabilidad) {
+    int chances[10] = {50, 45, 40, 35, 30, 25, 20, 15, 10, 5};
+    int perdidas[10] = {5, 10, 15, 20, 25, 30, 35, 40, 45, 50};
+    int oroGanado[10] = {15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000, 55000, 60000};
 
-    cout << "----- BATALLA #" << ronda+1 << " -----\n";
+    cout << "----- BATALLA #" << ronda + 1 << " -----\n";
 
-    int chanceBatalla = chances[ronda];
-<<<<<<< HEAD
-    if (casaSeleccionada == 3) chanceBatalla += 35 + nivelHabilidad*10;
-=======
-
-
-    if (casaSeleccionada == 3) {
-        chanceBatalla += 35 + (nivelHabilidad * 10);
-    } else if (casaSeleccionada == 2) {
-        chanceBatalla -= 20 - (nivelHabilidad * 5);
-        if (chanceBatalla < 0) chanceBatalla = 0;
+    if (soldados <= 0 || comida <= 0) {
+        cout << "No tienes tropas o comida suficiente\n";
+        system("pause");
+        return false;
     }
->>>>>>> 12356f0b423141d56362bb7d1197e0dc792768cc
 
-    int random = rand() % 100 + 1;
-    cout << "Chance: " << chanceBatalla << "%\n";
+    int soldadosCombatientes = min(soldados, comida);
+    bool victoria = false;
+    bool dragonActivado = false;
 
-    bool victoria = (random <= chanceBatalla);
-<<<<<<< HEAD
-    if (victoria)
-    {
-        cout << "¡VICTORIA!\n";
-        int extra=0;
-        if (casaSeleccionada==1)
-        {
-            extra = oroGanado[ronda]*(30 + nivelHabilidad*5)/100;
-            cout << "Lannister: +" << extra << " oro extra.\n";
-=======
+    // Targaryen – habilidad activa automatica
+    if (casaSeleccionada == 3) {
+        int chanceDragon = 10 + nivelHabilidad * 10;
+        int tirada = rand() % 100 + 1;
+        if (tirada <= chanceDragon) {
+            dragonActivado = true;
+            victoria = true;
+
+            int quemados = soldadosCombatientes * 20 / 100;
+            soldados -= quemados;
+
+            cout << "Invocaste al dragon. Victoria automatica.\n";
+            cout << "Perdiste " << quemados << " soldados (20% quemados).\n";
+        }
+    }
+
+    if (!dragonActivado) {
+        int chanceBatalla = chances[ronda];
+        if (casaSeleccionada == 3) {
+            chanceBatalla += 35 + nivelHabilidad * 10;
+        }
+
+        int random = rand() % 100 + 1;
+        cout << "Soldados enviados: " << soldadosCombatientes << endl;
+        cout << "Chance de victoria: " << chanceBatalla << "%\n";
+
+        victoria = (random <= chanceBatalla);
+
+        if (victoria) {
+            cout << "VICTORIA\n";
+        } else {
+            cout << "DERROTA\n";
+        }
+    }
 
     if (victoria) {
-        cout << "Â¡Victoria!" << endl;
-
-        int oroExtra = 0;
+        int extra = 0;
         if (casaSeleccionada == 1) {
-            int porcentajeExtra = 30 + (nivelHabilidad * 5);
-            oroExtra = oroGanado[ronda] * porcentajeExtra / 100;
-            cout << "Lannister habilidad activa: +" << oroExtra << " oro extra" << endl;
->>>>>>> 12356f0b423141d56362bb7d1197e0dc792768cc
+            extra = oroGanado[ronda] * (30 + nivelHabilidad * 5) / 100;
+            cout << "Bonus por casa Lannister: +" << extra << " oro\n";
         }
+        cout << "Ganancia base: " << oroGanado[ronda] << " oro\n";
+        cout << "Total ganado: " << (oroGanado[ronda] + extra) << " oro\n";
         oro += oroGanado[ronda] + extra;
     }
-    else cout << "DERROTA...\n";
 
-    int perdidaBase = perdidas[ronda];
-    if (casaSeleccionada==2)
-    {
-        perdidaBase -= ronda;
-        if (perdidaBase<0) perdidaBase=0;
-    }
-    int perdidasBatalla = soldados*perdidaBase/100;
-    soldados -= perdidasBatalla;
-
-    if (casaSeleccionada==1)
-    {
-        int recup=perdidasBatalla*0.5;
-        oro+=recup;
-        cout<<"Lannister: recupera +"<<recup<<" oro.\n";
-    }
-
-    int comidaConsumida = soldados;
-    comida -= comidaConsumida;
-
-    if (casaSeleccionada==4)
-    {
-        int chanceBar = nivelHabilidad * 5;
-        if (rand() % 100 + 1 <= chanceBar)
-        {
-            comida += comidaConsumida / 2;
-            cout << "Baratheon: recupera 50% comida!\n";
+    if (!dragonActivado) {
+        float perdidaBase = perdidas[ronda];
+        if (casaSeleccionada == 2) {
+            float reduccion = ronda * 0.01f;
+            perdidaBase *= (1.0f - reduccion);
+            cout << "Stark: pasiva aplicada, perdida reducida a " << perdidaBase << "%\n";
         }
-        comida += comidaConsumida * 30 / 100;
+
+        int perdidasBatalla = static_cast<int>(soldadosCombatientes * (perdidaBase / 100.0f));
+        soldados -= perdidasBatalla;
+
+        if (casaSeleccionada == 1) {
+            int recup = perdidasBatalla * 0.5;
+            oro += recup;
+            cout << "Lannister: recupera +" << recup << " oro por soldados caidos\n";
+        }
+
+        cout << "Soldados perdidos: " << perdidasBatalla << "\n";
     }
 
-    cout << "Perdiste " << perdidasBatalla << " soldados.\n------------------------------\n";
+    // Gasto de comida y habilidades de Baratheon
+    if (casaSeleccionada == 4) {
+        int chanceHabilidad = 5 + nivelHabilidad * 5;
+        bool habilidadActiva = (rand() % 100 + 1 <= chanceHabilidad);
+
+        int comidaUsada = soldadosCombatientes;
+        if (habilidadActiva) {
+            comidaUsada = soldadosCombatientes / 2;
+            cout << "Baratheon (habilidad activa): solo se consumio la mitad de la comida\n";
+        }
+
+        comida -= comidaUsada;
+
+        int recuperada = comidaUsada * 30 / 100;
+        comida += recuperada;
+        cout << "Baratheon (pasiva): recupera +" << recuperada << " comida\n";
+
+        if (comida < 0) comida = 0;
+    } else {
+        // Otras casas: gasto total de comida
+        comida -= soldadosCombatientes;
+        if (comida < 0) comida = 0;
+    }
+
+    cout << "Comida restante: " << comida << "\n";
+    cout << "------------------------------\n";
     system("pause");
     return victoria;
 }
